@@ -79,6 +79,13 @@ cd my-app
 npm run dev
 ```
 
+แก้ไขไฟล์ *tsconfig.json* และย้ายโฟลเดอร์ app/
+```json
+    "paths": {
+      "@/*": ["./*"]
+    }
+```
+
 ### ทดลองสร้างหน้า /students
 - สร้างไฟล์ *page.tsx*
 
