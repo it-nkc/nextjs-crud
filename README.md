@@ -202,6 +202,108 @@ const prisma = new PrismaClient({
 export default prisma;
 ```
 
+แก้ไขไฟล์ *app/students/page.tsx*
+
+```javascript
+import prisma from "@/app/lib/prisma";
+
+export default async function StudentsPage() {
+  const students = await prisma.student.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
+
+  return (
+    <main className="mx-auto max-w-6xl p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">
+          Student Management
+        </h1>
+
+        <p className="mt-2 text-gray-600">
+          จำนวนนักศึกษา:{" "}
+          <strong>{students.length}</strong> คน
+        </p>
+      </div>
+
+      <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3 font-semibold">ID</th>
+              <th className="px-4 py-3 font-semibold">
+                รหัสนักศึกษา
+              </th>
+              <th className="px-4 py-3 font-semibold">
+                ชื่อ
+              </th>
+              <th className="px-4 py-3 font-semibold">
+                Email
+              </th>
+              <th className="px-4 py-3 font-semibold">
+                สาขา
+              </th>
+              <th className="px-4 py-3 font-semibold">
+                ชั้นปี
+              </th>
+              <th className="px-4 py-3 font-semibold">
+                สถานะ
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {students.map((student) => (
+              <tr
+                key={student.id}
+                className="border-t border-gray-200 hover:bg-gray-50"
+              >
+                <td className="px-4 py-3">
+                  {student.id}
+                </td>
+
+                <td className="px-4 py-3">
+                  {student.studentCode}
+                </td>
+
+                <td className="px-4 py-3 font-medium">
+                  {student.name}
+                </td>
+
+                <td className="px-4 py-3">
+                  {student.email ?? "-"}
+                </td>
+
+                <td className="px-4 py-3">
+                  {student.major}
+                </td>
+
+                <td className="px-4 py-3">
+                  {student.year}
+                </td>
+
+                <td className="px-4 py-3">
+                  {student.status ? (
+                    <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                      กำลังศึกษา
+                    </span>
+                  ) : (
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
+                      ไม่ใช้งาน
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+```
+
 แก้ไขไฟล์ *globals.css*
 
 ```
